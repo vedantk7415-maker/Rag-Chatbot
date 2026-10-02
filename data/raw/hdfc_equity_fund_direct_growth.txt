@@ -1,0 +1,74 @@
+==============================================================================
+SOURCE      : HDFC Flexi Cap Fund - Direct Growth
+URL         : https://groww.in/mutual-funds/hdfc-equity-fund-direct-growth
+CATEGORY    : Flexi Cap
+AMC        : HDFC Mutual Fund
+FETCHED ON  : 2026-10-02
+SECTIONS    : 7
+==============================================================================
+
+NOTE: Return figures, category averages, rankings, portfolio holdings and
+      fund-comparison tables are intentionally NOT included. The brief
+      forbids performance claims, so the bot refuses return questions and
+      links to the official factsheet instead.
+
+
+------------------------------------------------------------------------------
+## scheme_overview
+------------------------------------------------------------------------------
+Scheme name: HDFC Flexi Cap Direct Plan Growth
+Fund house (AMC): HDFC Mutual Fund
+Category: Flexi Cap
+Scheme type: Equity | Plan: Direct | Option: Growth
+Launch date: 01 Jan 2013
+Fund manager(s): Dhruv Muchhal, Amit Ganatra
+ISIN: INF179K01UT0 | Scheme code: 118955
+Investment objective: The scheme seeks to generate capital appreciation / income from a portfolio, predominantly invested in equity & equity related instruments.
+
+------------------------------------------------------------------------------
+## fees
+------------------------------------------------------------------------------
+Expense ratio of HDFC Flexi Cap Direct Plan Growth: 0.77%
+Base expense ratio of HDFC Flexi Cap Direct Plan Growth: 0.57%
+Exit load of HDFC Flexi Cap Direct Plan Growth: Exit load of 1% if redeemed within 1 year
+Stamp duty on investment in HDFC Flexi Cap Direct Plan Growth: 0.005% (from July 1st, 2020)
+Historic exit load of HDFC Flexi Cap Direct Plan Growth (effective 2013-01-01T00:00:00): Exit load of 1% if redeemed within 1 year
+
+------------------------------------------------------------------------------
+## minimum_investment
+------------------------------------------------------------------------------
+Minimum SIP amount for HDFC Flexi Cap Direct Plan Growth: Rs 100
+Maximum SIP amount for HDFC Flexi Cap Direct Plan Growth: Rs 999,999,999
+Minimum first-time lump sum investment in HDFC Flexi Cap Direct Plan Growth: Rs 100
+Minimum additional investment in HDFC Flexi Cap Direct Plan Growth: Rs 100
+Minimum withdrawal amount from HDFC Flexi Cap Direct Plan Growth: Rs 100
+SIP allowed in HDFC Flexi Cap Direct Plan Growth: Yes | Lump sum allowed: Yes
+
+------------------------------------------------------------------------------
+## benchmark
+------------------------------------------------------------------------------
+Benchmark of HDFC Flexi Cap Direct Plan Growth: NIFTY 500 Total Return Index (NIFTY 500 TRI). This is the index the scheme is measured against.
+
+------------------------------------------------------------------------------
+## riskometer
+------------------------------------------------------------------------------
+Riskometer rating of HDFC Flexi Cap Direct Plan Growth: Moderately High. Groww rating of HDFC Flexi Cap Direct Plan Growth: 5 out of 5.
+
+------------------------------------------------------------------------------
+## tax
+------------------------------------------------------------------------------
+Tax implication for HDFC Flexi Cap Direct Plan Growth: If you redeem within one year, returns are taxed at 20%. If you redeem after one year, returns exceeding Rs 1.25 lakh in a financial year are taxed at 12.5%.
+
+------------------------------------------------------------------------------
+## fund_details
+------------------------------------------------------------------------------
+Assets under management (AUM) of HDFC Flexi Cap Direct Plan Growth: Rs 113,606.47 Cr
+Latest NAV of HDFC Flexi Cap Direct Plan Growth: Rs 2,150.08 (as on 01 Oct 2026)
+Portfolio turnover ratio of HDFC Flexi Cap Direct Plan Growth: 29
+Custodian of HDFC Flexi Cap Direct Plan Growth: Deutsche Bank
+Registrar and transfer agent (RTA) of HDFC Flexi Cap Direct Plan Growth: Cams (www.camsonline.com)
+Official AMC website / Scheme Information Document (SID) for HDFC Flexi Cap Direct Plan Growth: https://www.hdfcfund.com
+
+==============================================================================
+END OF FILE
+==============================================================================

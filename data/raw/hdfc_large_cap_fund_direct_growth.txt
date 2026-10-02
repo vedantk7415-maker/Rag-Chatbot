@@ -1,0 +1,76 @@
+==============================================================================
+SOURCE      : HDFC Large Cap Fund - Direct Growth
+URL         : https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth
+CATEGORY    : Large Cap
+AMC        : HDFC Mutual Fund
+FETCHED ON  : 2026-10-02
+SECTIONS    : 7
+==============================================================================
+
+NOTE: Return figures, category averages, rankings, portfolio holdings and
+      fund-comparison tables are intentionally NOT included. The brief
+      forbids performance claims, so the bot refuses return questions and
+      links to the official factsheet instead.
+
+
+------------------------------------------------------------------------------
+## scheme_overview
+------------------------------------------------------------------------------
+Scheme name: HDFC Large Cap Fund Direct Growth
+Fund house (AMC): HDFC Mutual Fund
+Category: Large Cap
+Scheme type: Equity | Plan: Direct | Option: Growth
+Launch date: 01 Jan 2013
+Fund manager(s): Rahul Baijal, Dhruv Muchhal
+ISIN: INF179K01YV8 | Scheme code: 119018
+Investment objective: The scheme seeks to provide long-term capital appreciation/income by investing predominantly in Large-Cap companies.
+
+------------------------------------------------------------------------------
+## fees
+------------------------------------------------------------------------------
+Expense ratio of HDFC Large Cap Fund Direct Growth: 1.04%
+Base expense ratio of HDFC Large Cap Fund Direct Growth: 0.85%
+Exit load of HDFC Large Cap Fund Direct Growth: Exit load of 1% if redeemed within 1 year
+Stamp duty on investment in HDFC Large Cap Fund Direct Growth: 0.005% (from July 1st, 2020)
+Historic exit load of HDFC Large Cap Fund Direct Growth (effective 2015-05-08T00:00:00): Exit load of 1% if redeemed within 1 year
+Historic exit load of HDFC Large Cap Fund Direct Growth (effective 2015-02-16T00:00:00): Exit load of 1% if redeemed within 18 months
+Historic exit load of HDFC Large Cap Fund Direct Growth (effective 2013-01-01T00:00:00): Exit load of 1% if redeemed within 1 year
+
+------------------------------------------------------------------------------
+## minimum_investment
+------------------------------------------------------------------------------
+Minimum SIP amount for HDFC Large Cap Fund Direct Growth: Rs 100
+Maximum SIP amount for HDFC Large Cap Fund Direct Growth: Rs 999,999,999
+Minimum first-time lump sum investment in HDFC Large Cap Fund Direct Growth: Rs 100
+Minimum additional investment in HDFC Large Cap Fund Direct Growth: Rs 100
+Minimum withdrawal amount from HDFC Large Cap Fund Direct Growth: Rs 100
+SIP allowed in HDFC Large Cap Fund Direct Growth: Yes | Lump sum allowed: Yes
+
+------------------------------------------------------------------------------
+## benchmark
+------------------------------------------------------------------------------
+Benchmark of HDFC Large Cap Fund Direct Growth: NIFTY 100 Total Return Index (NIFTY 100 TRI). This is the index the scheme is measured against.
+
+------------------------------------------------------------------------------
+## riskometer
+------------------------------------------------------------------------------
+Riskometer rating of HDFC Large Cap Fund Direct Growth: Moderately High Riskometer. Groww rating of HDFC Large Cap Fund Direct Growth: 4 out of 5.
+
+------------------------------------------------------------------------------
+## tax
+------------------------------------------------------------------------------
+Tax implication for HDFC Large Cap Fund Direct Growth: If you redeem within one year, returns are taxed at 20%. If you redeem after one year, returns exceeding Rs 1.25 lakh in a financial year are taxed at 12.5%.
+
+------------------------------------------------------------------------------
+## fund_details
+------------------------------------------------------------------------------
+Assets under management (AUM) of HDFC Large Cap Fund Direct Growth: Rs 39,933.37 Cr
+Latest NAV of HDFC Large Cap Fund Direct Growth: Rs 1,151.92 (as on 01 Oct 2026)
+Portfolio turnover ratio of HDFC Large Cap Fund Direct Growth: 18
+Custodian of HDFC Large Cap Fund Direct Growth: HDFC Bank
+Registrar and transfer agent (RTA) of HDFC Large Cap Fund Direct Growth: Cams (www.camsonline.com)
+Official AMC website / Scheme Information Document (SID) for HDFC Large Cap Fund Direct Growth: https://www.hdfcfund.com
+
+==============================================================================
+END OF FILE
+==============================================================================

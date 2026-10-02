@@ -1,0 +1,15 @@
+# Normalise line endings so the repo behaves the same on Windows, Linux and macOS.
+# This project already hit a CRLF-vs-LF bug in the chunker's line-ending
+# handling; pinning LF in the repo removes that class of surprise for anyone
+# cloning it.
+* text=auto eol=lf
+
+*.py    text eol=lf
+*.md    text eol=lf
+*.csv   text eol=lf
+*.txt   text eol=lf
+*.json  text eol=lf
+
+# Generated or binary - never line-ending converted.
+chroma_db/** binary
+data/chunks.txt text eol=lf

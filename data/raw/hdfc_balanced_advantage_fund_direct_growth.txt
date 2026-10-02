@@ -1,0 +1,77 @@
+==============================================================================
+SOURCE      : HDFC Balanced Advantage Fund - Direct Growth
+URL         : https://groww.in/mutual-funds/hdfc-balanced-advantage-fund-direct-growth
+CATEGORY    : Balanced Advantage
+AMC        : HDFC Mutual Fund
+FETCHED ON  : 2026-10-02
+SECTIONS    : 7
+==============================================================================
+
+NOTE: Return figures, category averages, rankings, portfolio holdings and
+      fund-comparison tables are intentionally NOT included. The brief
+      forbids performance claims, so the bot refuses return questions and
+      links to the official factsheet instead.
+
+
+------------------------------------------------------------------------------
+## scheme_overview
+------------------------------------------------------------------------------
+Scheme name: HDFC Balanced Advantage Fund Direct Growth
+Fund house (AMC): HDFC Mutual Fund
+Category: Dynamic Asset Allocation
+Scheme type: Hybrid | Plan: Direct | Option: Growth
+Launch date: 01 Jan 2013
+Fund manager(s): Anil Bamboli, Arun Agarwal, Dhruv Muchhal, Nandita Menezes, Gopal Agrawal, Ihab Dalwai
+ISIN: INF179K01WA6 | Scheme code: 118968
+Investment objective: The Scheme seeks to provide long term capital appreciation / income from a dynamic mix of equity and debt investments.
+
+------------------------------------------------------------------------------
+## fees
+------------------------------------------------------------------------------
+Expense ratio of HDFC Balanced Advantage Fund Direct Growth: 0.78%
+Base expense ratio of HDFC Balanced Advantage Fund Direct Growth: 0.64%
+Exit load of HDFC Balanced Advantage Fund Direct Growth: Exit Load for units in excess of 15% of the investment,1% will be charged for redemption within 1 year.
+Stamp duty on investment in HDFC Balanced Advantage Fund Direct Growth: 0.005% (from July 1st, 2020)
+Historic exit load of HDFC Balanced Advantage Fund Direct Growth (effective 2018-06-01T00:00:00): Exit Load for units in excess of 15% of the investment,1% will be charged for redemption within 1 year.
+Historic exit load of HDFC Balanced Advantage Fund Direct Growth (effective 2015-05-08T00:00:00): Exit load of 1% if redeemed within 1 year
+Historic exit load of HDFC Balanced Advantage Fund Direct Growth (effective 2014-12-18T00:00:00): Exit load of 2% if redeemed within 12 months, 1% if redeemed after 12 months but within 24 months and 0.50% if redeemed after 24 months but within 36 months
+Historic exit load of HDFC Balanced Advantage Fund Direct Growth (effective 2013-01-01T00:00:00): Exit load of 1% if redeemed within 1 year
+
+------------------------------------------------------------------------------
+## minimum_investment
+------------------------------------------------------------------------------
+Minimum SIP amount for HDFC Balanced Advantage Fund Direct Growth: Rs 100
+Maximum SIP amount for HDFC Balanced Advantage Fund Direct Growth: Rs 999,999,999
+Minimum first-time lump sum investment in HDFC Balanced Advantage Fund Direct Growth: Rs 100
+Minimum additional investment in HDFC Balanced Advantage Fund Direct Growth: Rs 100
+Minimum withdrawal amount from HDFC Balanced Advantage Fund Direct Growth: Rs 100
+SIP allowed in HDFC Balanced Advantage Fund Direct Growth: Yes | Lump sum allowed: Yes
+
+------------------------------------------------------------------------------
+## benchmark
+------------------------------------------------------------------------------
+Benchmark of HDFC Balanced Advantage Fund Direct Growth: NIFTY 50 Hybrid Composite Debt 50:50 Index (NIFTY 50 Hybrid Composite Debt 50:50 Index). This is the index the scheme is measured against.
+
+------------------------------------------------------------------------------
+## riskometer
+------------------------------------------------------------------------------
+Riskometer rating of HDFC Balanced Advantage Fund Direct Growth: Moderately High Riskometer. Groww rating of HDFC Balanced Advantage Fund Direct Growth: 5 out of 5.
+
+------------------------------------------------------------------------------
+## tax
+------------------------------------------------------------------------------
+Tax implication for HDFC Balanced Advantage Fund Direct Growth: If you redeem within one year, returns are taxed at 20%. If you redeem after one year, returns exceeding Rs 1.25 lakh in a financial year are taxed at 12.5%.
+
+------------------------------------------------------------------------------
+## fund_details
+------------------------------------------------------------------------------
+Assets under management (AUM) of HDFC Balanced Advantage Fund Direct Growth: Rs 107,295.79 Cr
+Latest NAV of HDFC Balanced Advantage Fund Direct Growth: Rs 546.11 (as on 01 Oct 2026)
+Portfolio turnover ratio of HDFC Balanced Advantage Fund Direct Growth: 27
+Custodian of HDFC Balanced Advantage Fund Direct Growth: HDFC Bank
+Registrar and transfer agent (RTA) of HDFC Balanced Advantage Fund Direct Growth: Cams (www.camsonline.com)
+Official AMC website / Scheme Information Document (SID) for HDFC Balanced Advantage Fund Direct Growth: https://www.hdfcfund.com
+
+==============================================================================
+END OF FILE
+==============================================================================

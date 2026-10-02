@@ -1,0 +1,77 @@
+==============================================================================
+SOURCE      : HDFC Small Cap Fund - Direct Growth
+URL         : https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth
+CATEGORY    : Small Cap
+AMC        : HDFC Mutual Fund
+FETCHED ON  : 2026-10-02
+SECTIONS    : 7
+==============================================================================
+
+NOTE: Return figures, category averages, rankings, portfolio holdings and
+      fund-comparison tables are intentionally NOT included. The brief
+      forbids performance claims, so the bot refuses return questions and
+      links to the official factsheet instead.
+
+
+------------------------------------------------------------------------------
+## scheme_overview
+------------------------------------------------------------------------------
+Scheme name: HDFC Small Cap Fund Direct Growth
+Fund house (AMC): HDFC Mutual Fund
+Category: Small Cap
+Scheme type: Equity | Plan: Direct | Option: Growth
+Launch date: 01 Jan 2013
+Fund manager(s): Dhruv Muchhal, Chirag Setalvad
+ISIN: INF179KA1RW5 | Scheme code: 130503
+Investment objective: The scheme seeks to provide long-term capital appreciation /income by investing predominantly in Small-Cap companies.
+
+------------------------------------------------------------------------------
+## fees
+------------------------------------------------------------------------------
+Expense ratio of HDFC Small Cap Fund Direct Growth: 0.79%
+Base expense ratio of HDFC Small Cap Fund Direct Growth: 0.64%
+Exit load of HDFC Small Cap Fund Direct Growth: Exit load of 1% if redeemed within 1 year
+Stamp duty on investment in HDFC Small Cap Fund Direct Growth: 0.005% (from July 1st, 2020)
+Historic exit load of HDFC Small Cap Fund Direct Growth (effective 2015-05-08T00:00:00): Exit load of 1% if redeemed within 1 year
+Historic exit load of HDFC Small Cap Fund Direct Growth (effective 2014-12-18T00:00:00): Exit load of 2% if redeemed within 12 months, 1% if redeemed after 12 months but within 24 months and 0.50% if redeemed after 24 months but within 36 months
+Historic exit load of HDFC Small Cap Fund Direct Growth (effective 2014-07-01T00:00:00): Exit load of 2% if redeemed within 12 months and 1% if redeemed after 12 months but before 18 months
+Historic exit load of HDFC Small Cap Fund Direct Growth (effective 2013-01-01T00:00:00): Exit load of 1% if redeemed within 1 year
+
+------------------------------------------------------------------------------
+## minimum_investment
+------------------------------------------------------------------------------
+Minimum SIP amount for HDFC Small Cap Fund Direct Growth: Rs 100
+Maximum SIP amount for HDFC Small Cap Fund Direct Growth: Rs 999,999,999
+Minimum first-time lump sum investment in HDFC Small Cap Fund Direct Growth: Rs 100
+Minimum additional investment in HDFC Small Cap Fund Direct Growth: Rs 100
+Minimum withdrawal amount from HDFC Small Cap Fund Direct Growth: Rs 100
+SIP allowed in HDFC Small Cap Fund Direct Growth: Yes | Lump sum allowed: Yes
+
+------------------------------------------------------------------------------
+## benchmark
+------------------------------------------------------------------------------
+Benchmark of HDFC Small Cap Fund Direct Growth: BSE 250 SmallCap Total Return Index (BSE 250 SmallCap TRI). This is the index the scheme is measured against.
+
+------------------------------------------------------------------------------
+## riskometer
+------------------------------------------------------------------------------
+Riskometer rating of HDFC Small Cap Fund Direct Growth: Moderately High Riskometer. Groww rating of HDFC Small Cap Fund Direct Growth: 3 out of 5.
+
+------------------------------------------------------------------------------
+## tax
+------------------------------------------------------------------------------
+Tax implication for HDFC Small Cap Fund Direct Growth: If you redeem within one year, returns are taxed at 20%. If you redeem after one year, returns exceeding Rs 1.25 lakh in a financial year are taxed at 12.5%.
+
+------------------------------------------------------------------------------
+## fund_details
+------------------------------------------------------------------------------
+Assets under management (AUM) of HDFC Small Cap Fund Direct Growth: Rs 41,890.86 Cr
+Latest NAV of HDFC Small Cap Fund Direct Growth: Rs 155.01 (as on 01 Oct 2026)
+Portfolio turnover ratio of HDFC Small Cap Fund Direct Growth: 6
+Custodian of HDFC Small Cap Fund Direct Growth: Citibank NA
+Registrar and transfer agent (RTA) of HDFC Small Cap Fund Direct Growth: Cams (www.camsonline.com)
+Official AMC website / Scheme Information Document (SID) for HDFC Small Cap Fund Direct Growth: https://www.hdfcfund.com
+
+==============================================================================
+END OF FILE
+==============================================================================
