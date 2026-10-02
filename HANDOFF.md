@@ -77,17 +77,43 @@ runtime.
 (confirmed from `1_Pooling/config.json` and `modules.json`); the module
 reproduces that pipeline exactly.
 
+### The second bug: ingestion batch size (this is what actually got OOM-killed)
+
+Swapping PyTorch for ONNX fixed the *query* path (539 -> 208 MB), but the app
+still died. The reason: the start command runs `ingest.py` and `streamlit run` as
+**two separate processes**, and only the query path had been measured.
+
+MiniLM's attention scores are `batch x 12 heads x 256 seq x 256 seq` float32 =
+~48 MB **per layer**, so ~288 MB across 6 layers at `batch_size=16`. Measured
+peak while embedding the same 46 chunks:
+
+| batch_size | peak | delta over baseline | theory |
+|---|---|---|---|
+| 16 | 451 MB | +278 MB | 288 MB |
+| 8 | — | — | 144 MB |
+| 4 | **247 MB** | **+69 MB** | 72 MB |
+| 1 | 198 MB | +18 MB | 18 MB |
+
+Theory and measurement agree within ~4%, so this is the whole story.
+`batch_size=16` took ingestion to **489 MB** against a 512 MB budget. Default is
+now **4** (`DEFAULT_BATCH_SIZE` in `embedder.py`).
+
+Because ingest and streamlit are separate processes, the container peak is
+`max(ingest, streamlit)`, not their sum.
+
 ### Results
 
 | Measurement | Before | After |
 |---|---|---|
-| Query path peak | 539 MB | **208 MB** |
+| ingest.py, fresh store | 489 MB | **283 MB** |
+| Query path | 539 MB | **208 MB** |
 | Real `app.py`, 3 live questions | ~700 MB | **235 MB** |
-| Headroom vs 512 MB | −190 MB | **+277 MB** |
+| Headroom vs 512 MB | −190 MB | **+229 MB** |
 
-Parity with the old embedder over all 46 real corpus chunks: **minimum cosine
-0.99999982**, max absolute difference **1.75e-07** (float32 noise). Retrieval
-scores identical: 13/13 scheme, 10/13 rank-1, 13/13 top-5.
+Parity with the original `sentence-transformers` embedder over all 46 real corpus
+chunks: **minimum cosine 0.99999982**, max absolute difference **1.75e-07**
+(float32 noise). Retrieval scores identical: 13/13 scheme, 10/13 rank-1, 13/13
+top-5.
 
 ### Things that were tried and rejected — do not retry
 

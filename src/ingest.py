@@ -757,7 +757,7 @@ def chunk_signature(chunks: list[Chunk]) -> str:
     return hashlib.sha256(joined.encode("utf-8")).hexdigest()[:16]
 
 
-def embed_and_store(chunks: list[Chunk], rebuild: bool = False, batch_size: int = 16) -> int:
+def embed_and_store(chunks: list[Chunk], rebuild: bool = False, batch_size: int = 4) -> int:
     """
     Embed every chunk with MiniLM and upsert it into ChromaDB.
 
@@ -797,7 +797,8 @@ def embed_and_store(chunks: list[Chunk], rebuild: bool = False, batch_size: int 
     print(f"[embed] loading {EMBED_MODEL} (first run downloads ~90MB)...")
     model = get_model()
 
-    print(f"[embed] embedding {len(chunks)} chunks -> {EMBED_DIM}-dim vectors")
+    print(f"[embed] embedding {len(chunks)} chunks -> {EMBED_DIM}-dim vectors "
+          f"(batch {batch_size}; larger batches spike memory - see embedder.py)")
     texts = [c.text for c in chunks]
     vectors = model.encode(
         texts,

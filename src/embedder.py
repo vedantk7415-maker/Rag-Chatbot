@@ -40,6 +40,21 @@ ONNX_FILE = "onnx/model.onnx"
 TOKENIZER_FILE = "tokenizer.json"
 TOKENIZER_CONFIG = "tokenizer_config.json"
 
+# Batch size is a MEMORY decision, not a speed one.
+#
+# MiniLM's attention scores are (batch x 12 heads x 256 seq x 256 seq) float32,
+# i.e. ~48 MB per layer at batch 16 and ~288 MB across all 6 layers. Measured
+# peak while embedding the 46 corpus chunks:
+#
+#     batch 16 -> 451 MB peak   (+278 MB over baseline)
+#     batch  4 -> 247 MB peak   (+69 MB)
+#     batch  1 -> 198 MB peak   (+18 MB)
+#
+# batch=16 is what pushed ingestion to 489 MB against a 512 MB deployment
+# budget, and the app was OOM-killed. batch=4 gives a 4x reduction while still
+# batching; the corpus is only 46 chunks, so throughput is irrelevant.
+DEFAULT_BATCH_SIZE = 4
+
 
 class Embedder:
     """
@@ -124,7 +139,7 @@ class Embedder:
     def encode(
         self,
         sentences,
-        batch_size: int = 16,
+        batch_size: int = DEFAULT_BATCH_SIZE,
         convert_to_numpy: bool = True,
         normalize_embeddings: bool = True,
         show_progress_bar: bool = False,  # accepted for compatibility, unused
