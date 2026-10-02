@@ -105,6 +105,25 @@ check("no exceptions", len(at2.exception) == 0)
 check("history cleared", len(at2.chat_message) == 0, f"{len(at2.chat_message)} left")
 check("welcome returns", "Welcome" in all_text(at2))
 
+print("\n=== 7. theme must not be pinned, and no hardcoded colours ===")
+config = (ROOT / ".streamlit" / "config.toml").read_text(encoding="utf-8")
+# A real section header on its own line - not the words "[theme]" appearing
+# inside a comment explaining why the section is absent.
+theme_headers = [
+    ln.strip() for ln in config.splitlines()
+    if ln.strip().startswith("[") and "theme" in ln.strip().lower()
+]
+check("[theme] section absent from config", not theme_headers, str(theme_headers))
+
+app_src = (ROOT / "app.py").read_text(encoding="utf-8")
+style_block = app_src.split("<style>")[-1].split("</style>")[0]
+import re as _re
+hexes = _re.findall(r"#[0-9a-fA-F]{3,6}\b", style_block)
+check("no hardcoded hex colours in injected CSS", not hexes, str(set(hexes)))
+check("CSS uses theme variables", "var(--text-color)" in style_block)
+check("welcome card uses theme variables", "var(--secondary-background-color)" in style_block)
+check("build marker present", "Build `" in all_text(at))
+
 print("\n" + "=" * 60)
 passed = sum(1 for _, ok, _ in results if ok)
 print(f"{passed}/{len(results)} UI checks passed")

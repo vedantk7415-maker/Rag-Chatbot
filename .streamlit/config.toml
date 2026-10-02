@@ -31,5 +31,13 @@ gatherUsageStats = false
 [logger]
 level = "info"
 
-[theme]
-base = "light"
+# NO [theme] SECTION - deliberately.
+#
+# An earlier version set `base = "light"` here, which forced light and made
+# Streamlit hide its theme selector from the menu. That removed the user's
+# ability to choose light or dark at all, which is a regression, not a
+# preference: the app now follows the device setting and the in-app toggle
+# (menu -> Settings -> Theme) is available again.
+#
+# Anything styled in app.py must therefore use Streamlit's theme CSS variables
+# rather than hardcoded hex values, or it will be unreadable in dark mode.

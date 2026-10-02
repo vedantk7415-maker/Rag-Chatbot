@@ -49,7 +49,7 @@ DISCLAIMER = "Facts-only. No investment advice."
 
 # Shown in the sidebar so you can tell at a glance which build is live. Bump it
 # when you change anything you want to verify after a deploy.
-BUILD_ID = "2026-10-02-ui2"
+BUILD_ID = "2026-10-02-theme1"
 
 # Exactly three, per the demo brief. Between them they exercise a numeric fact,
 # a less obvious scheme, and a guardrail refusal. Anything else is one keystroke
@@ -174,29 +174,58 @@ def warm_up() -> bool:
 
 
 # --------------------------------------------------------------------------- #
-# Styling - restrained on purpose
+# Styling
+#
+# Every colour here is a Streamlit theme variable, never a fixed hex value. The
+# theme is no longer pinned in .streamlit/config.toml, so the app follows the
+# device setting and the in-app light/dark toggle. Hardcoded colours would look
+# correct in one theme and be unreadable in the other.
 # --------------------------------------------------------------------------- #
 
 st.markdown(
     """
 <style>
-  /* One accent colour plus neutral greys. Nothing here is load-bearing: if a
-     Streamlit upgrade renames a selector, the layout still works. */
+  /* Nothing here is load-bearing: if a Streamlit upgrade renames a selector,
+     the layout still works. */
   .block-container { padding-top: 2.2rem; padding-bottom: 4rem; max-width: 46rem; }
   h1, h2, h3 { letter-spacing: -0.01em; }
+
+  /* Secondary text: the disclaimer strip and small labels. */
+  .muted {
+      color: var(--text-color);
+      opacity: 0.62;
+      font-size: 0.86rem;
+  }
 
   /* The citation footer: deliberately quiet, so it reads as provenance rather
      than as part of the answer. */
   .srcfoot {
       margin-top: 0.55rem;
       padding-top: 0.45rem;
-      border-top: 1px solid rgba(128,128,128,0.22);
+      border-top: 1px solid var(--border-color, rgba(128,128,128,0.22));
       font-size: 0.80rem;
       line-height: 1.6;
-      color: rgba(110,110,110,1);
+      color: var(--text-color);
+      opacity: 0.72;
   }
-  .srcfoot a.src { color: #2f6f9f; text-decoration: none; font-weight: 500; }
+  .srcfoot a.src {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+  }
   .srcfoot a.src:hover { text-decoration: underline; }
+
+  /* Welcome card. */
+  .welcome {
+      background: var(--secondary-background-color);
+      border: 1px solid var(--border-color, rgba(128,128,128,0.22));
+      border-radius: 10px;
+      padding: 1rem 1.15rem;
+      margin: 0.6rem 0 0.2rem;
+      color: var(--text-color);
+  }
+  .welcome-title { font-weight: 600; margin-bottom: 0.35rem; }
+  .welcome-body { font-size: 0.93rem; line-height: 1.65; }
 
   [data-testid="stChatMessage"] { margin-bottom: 0.35rem; }
   [data-testid="stChatMessageContent"] { font-size: 1.02rem; line-height: 1.65; }
@@ -221,8 +250,7 @@ with st.sidebar:
     st.markdown("### 📊 HDFC MF Facts Bot")
 
     st.markdown(
-        f"<div style='font-size:0.82rem;color:#8a8a8a;margin:0.4rem 0 0.2rem'>"
-        f"{DISCLAIMER}</div>",
+        f"<div class='muted' style='margin:0.4rem 0 0.2rem'>{DISCLAIMER}</div>",
         unsafe_allow_html=True,
     )
 
@@ -280,18 +308,16 @@ with st.sidebar:
 
 st.title("HDFC mutual fund facts")
 st.markdown(
-    f"<div style='font-size:0.92rem;color:#8a8a8a;margin-bottom:0.4rem'>"
-    f"{DISCLAIMER}</div>",
+    f"<div class='muted' style='margin-bottom:0.4rem'>{DISCLAIMER}</div>",
     unsafe_allow_html=True,
 )
 
 if not st.session_state.messages:
     st.markdown(
         """
-<div style="background:#f7f8fa;border:1px solid rgba(128,128,128,0.20);
-            border-radius:10px;padding:1rem 1.15rem;margin:0.6rem 0 0.2rem">
-<div style="font-weight:600;margin-bottom:0.35rem">Welcome 👋</div>
-<div style="font-size:0.93rem;line-height:1.65;color:#444">
+<div class="welcome">
+<div class="welcome-title">Welcome 👋</div>
+<div class="welcome-body">
 Ask me about <b>expense ratio, exit load, minimum SIP, benchmark, riskometer
 rating, NAV, AUM, fund manager, ELSS lock-in</b>, or how to download a
 capital-gains statement, for any of the five HDFC schemes listed in the
@@ -413,11 +439,22 @@ if question:
             "`GROQ_API_KEY` to the `.env` file in the project root, then "
             "restart the app."
         )
-    except Exception:  # noqa: BLE001 - never show a raw traceback to a user
-        st.error(
-            "I couldn't produce an answer just now - the language model or the "
-            "vector store didn't respond. Please try that question again."
-        )
+    except Exception as exc:  # noqa: BLE001 - never show a raw traceback to a user
+        # A quota error is expected on the free tier and is worth naming,
+        # because "try again shortly" is the actual remedy and a generic
+        # failure message would send people looking for a bug that isn't there.
+        if "ratelimit" in type(exc).__name__.lower() or "429" in str(exc):
+            st.warning(
+                "The language model is temporarily rate limited and the "
+                "free-tier daily quota is used up. Please try again in a "
+                "couple of minutes."
+            )
+        else:
+            st.error(
+                "I couldn't produce an answer just now - the language model or "
+                "the vector store didn't respond. Please try that question "
+                "again."
+            )
     else:
         st.session_state.messages.append({"role": "assistant", "result": result})
         render_assistant(result)
