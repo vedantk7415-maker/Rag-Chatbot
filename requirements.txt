@@ -1,8 +1,35 @@
+# --- HTTP / parsing ---
 requests
 beautifulsoup4
-sentence-transformers
+
+# --- Vector store ---
 chromadb
+
+# --- LLM ---
 groq
 python-dotenv
+
+# --- UI ---
 streamlit
+
+# --- Embedding: deliberately NOT sentence-transformers ---
+#
+# sentence-transformers pulls in PyTorch, which costs ~455 MB of resident
+# memory before any work happens. That exceeded the 512 MB deployment budget
+# and killed the app on startup ("Ran out of memory, used over 512MB").
+#
+# Instead we embed with ONNX Runtime plus the Rust tokenizers library. Measured
+# peak dropped from 539 MB to 208 MB, and the vectors are identical to
+# sentence-transformers to within 1.75e-07 (minimum cosine 0.99999982 over all
+# 46 corpus chunks). See src/embedder.py.
+onnxruntime
+tokenizers
+huggingface-hub
+
+# --- Misc ---
 numpy
+
+# Development only, NOT required to run the app. Install these by hand if you
+# want to re-run the parity check in src/embedder.py (verify_parity):
+#   pip install sentence-transformers
+psutil

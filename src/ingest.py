@@ -698,8 +698,10 @@ def run_ingest(rebuild: bool = False) -> list[Chunk]:
 # Phase 3: Embedding and vector store
 # --------------------------------------------------------------------------- #
 
-EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-EMBED_DIM = 384
+# Single source of truth lives in embedder.py so ingestion and retrieval can
+# never drift onto different models.
+from embedder import EMBED_DIM, EMBED_MODEL  # noqa: E402
+
 CHROMA_DIR = ROOT / "chroma_db"
 COLLECTION_NAME = "mf_faq_chunks"
 MANIFEST = CHROMA_DIR / "manifest.json"
@@ -708,12 +710,22 @@ _model = None  # cached so we load the weights once per process
 
 
 def get_model():
-    """Load and cache the local MiniLM sentence-transformer."""
+    """
+    Load and cache the embedder.
+
+    This returns an `embedder.Embedder` (ONNX Runtime + tokenizers), NOT a
+    sentence-transformers SentenceTransformer. The swap is deliberate: PyTorch
+    costs ~455 MB of resident memory on its own, which exceeded the 512 MB
+    deployment budget and killed the app on startup. The ONNX embedder produces
+    vectors with a minimum cosine similarity of 0.99999982 against
+    sentence-transformers on all 46 corpus chunks, so retrieval behaviour is
+    unchanged - see embedder.verify_parity().
+    """
     global _model
     if _model is None:
-        from sentence_transformers import SentenceTransformer
+        from embedder import Embedder
 
-        _model = SentenceTransformer(EMBED_MODEL)
+        _model = Embedder(EMBED_MODEL)
     return _model
 
 

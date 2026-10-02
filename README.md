@@ -159,6 +159,28 @@ questions is worse than one that misses, so false positives were measured as
 carefully as true positives: **0 blocked out of 100** legitimate fact questions,
 against 22/22 advice and performance questions caught.
 
+**No PyTorch.** The deployed app has a 512 MB memory ceiling, and PyTorch's
+runtime alone costs ~455 MB — the app was killed on startup with
+`Ran out of memory (used over 512MB)`. Embedding therefore runs through ONNX
+Runtime plus the Rust `tokenizers` library in `src/embedder.py`, bypassing
+`sentence-transformers` and `transformers` entirely.
+
+Two fixes were tried and rejected first: thread caps saved 12 MB (irrelevant),
+and `SentenceTransformer(backend="onnx")` measured **worse** at 701 MB, because
+`transformers` imports torch even when ONNX is requested, so both runtimes load.
+
+Correctness was verified rather than assumed. Over all 46 real corpus chunks the
+ONNX embedder matches `sentence-transformers` with a **minimum cosine similarity
+of 0.99999982** and a maximum absolute difference of **1.75e-07** — float32
+noise. Retrieval scores are byte-for-byte identical to before the swap
+(13/13 scheme, 10/13 rank-1, 13/13 top-5).
+
+| Measurement | Before | After |
+|---|---|---|
+| Query path peak | 539 MB | 208 MB |
+| Real `app.py`, 3 live questions | ~700 MB | **235 MB** |
+| Headroom vs 512 MB budget | −190 MB | **+277 MB** |
+
 ---
 
 ## Verification
@@ -217,8 +239,13 @@ this repository, rotate the key.
 
 ## Environment
 
-- Python 3.10.5 · Streamlit 1.64.0 · ChromaDB 1.5.9 · sentence-transformers (all-MiniLM-L6-v2)
-- Model: `openai/gpt-oss-120b` via Groq, temperature 0 (override with `GROQ_MODEL`)
+- Python 3.10.5 · Streamlit 1.64.0 · ChromaDB 1.5.9 · ONNX Runtime 1.23.2
+- Embedding: `all-MiniLM-L6-v2` via ONNX Runtime (`src/embedder.py`) — **no PyTorch**
+- LLM: `openai/gpt-oss-120b` via Groq, temperature 0 (override with `GROQ_MODEL`)
+
+`sentence-transformers` and `torch` are **not** in `requirements.txt`. They are
+only needed to re-run the parity check in `src/embedder.py`; install them by hand
+if you want to.
 
 The model default was chosen by listing what the API key can actually reach
 rather than assuming. `llama-3.3-70b-versatile` — the model most tutorials use —
