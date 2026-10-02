@@ -1,5 +1,17 @@
 .env
-chroma_db/
+
+# NOTE: chroma_db/ is deliberately NOT ignored.
+#
+# The pre-built vector store is committed so the deployed app does not have to
+# run ingestion at startup. That removes an entire extra process from the
+# container, avoids downloading the ~90 MB embedding model during boot, and
+# makes the deploy deterministic instead of depending on Groww being reachable
+# from Render's datacenter IP.
+#
+# After changing data/sources.csv or the chunking rules, run
+#   python src/ingest.py --rebuild
+# and commit the updated store, or the deployment will serve stale vectors.
+
 __pycache__/
 *.pyc
 .venv/

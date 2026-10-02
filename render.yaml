@@ -14,16 +14,24 @@ services:
     plan: free
     region: singapore
 
-    # chroma_db/ is gitignored, so the vector store does not exist on deploy.
-    # Ingestion must run at startup. It is idempotent: re-running an already
-    # populated store is a no-op, but on a fresh container it does the work.
+    # The vector store (chroma_db/) is committed to the repo, so ingestion does
+    # NOT run at startup.
+    #
+    # This is a memory decision, not just a speed one. Running ingest as part of
+    # the start command puts a second Python process in the container, and it
+    # downloads the ~90 MB embedding model during boot - which is exactly where
+    # the container was being OOM-killed at 512 MiB. The app also no longer
+    # depends on Groww being reachable from Render's datacenter IP.
+    #
+    # If you change the corpus, rebuild the store and commit it:
+    #   python src/ingest.py --rebuild && git add -A && git commit -m "..."
     buildCommand: pip install --upgrade pip && pip install -r requirements.txt
     startCommand: >
-      python src/ingest.py &&
       streamlit run app.py
       --server.port $PORT
       --server.address 0.0.0.0
       --server.headless true
+      --server.fileWatcherType none
       --browser.gatherUsageStats false
 
     healthCheckPath: /

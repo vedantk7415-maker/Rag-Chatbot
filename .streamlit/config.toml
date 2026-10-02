@@ -1,0 +1,35 @@
+# Streamlit server configuration.
+#
+# fileWatcherType = "none" is the important one for this deployment. Streamlit's
+# default file watcher walks the entire working directory to enable hot reload.
+# On Render that directory also holds a freshly pip-installed .venv with
+# thousands of files, and the watcher holds a handle per watched path. That
+# overhead does not exist in a local run, which is why local measurements
+# (~235 MB) did not reproduce the 512 MiB OOM kill in the cloud.
+#
+# Hot reload is a development convenience and is worthless in production, so
+# switching it off costs nothing and removes a large, variable memory cost.
+
+[server]
+fileWatcherType = "none"
+headless = true
+address = "0.0.0.0"
+port = 8501
+maxUploadSize = 5
+
+# CORS and XSRF protection are deliberately NOT disabled.
+#
+# An earlier draft of this file set enableCORS = false, which Streamlit itself
+# flagged on startup: it stops Streamlit restricting cross-origin access, and a
+# WebSocket can then be opened from any origin without a valid XSRF token. That
+# is a real risk on a publicly reachable deployment, so both protections are
+# left at their secure defaults rather than tuned for convenience.
+
+[browser]
+gatherUsageStats = false
+
+[logger]
+level = "info"
+
+[theme]
+base = "light"

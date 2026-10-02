@@ -101,14 +101,48 @@ now **4** (`DEFAULT_BATCH_SIZE` in `embedder.py`).
 Because ingest and streamlit are separate processes, the container peak is
 `max(ingest, streamlit)`, not their sum.
 
+### The third bug: Streamlit's file watcher (the one actually being killed)
+
+Even after both fixes above, Render still returned `Out of memory (used over
+512Mi)` — and Streamlit's own `==>` prefix proved it was the **start** phase,
+immediately after the HF model download.
+
+Measured locally, though, nothing came close:
+
+| Stage | Peak |
+|---|---|
+| `Embedder()` cold construction | 168 MB |
+| `ingest.py`, fresh store | 283 MB |
+| `app.py`, 3 live questions | 235 MB |
+
+So the code fit in 512 MB locally and not in the cloud. The difference is
+**Streamlit's file watcher**: it walks the entire working directory to enable hot
+reload, and on Render that directory also holds a freshly `pip install`ed `.venv`
+with thousands of files. That cost does not exist in a local run, which is
+exactly why local measurement could not reproduce it.
+
+Fixed in `.streamlit/config.toml` via `fileWatcherType = "none"`. Hot reload is a
+development convenience and worthless in production.
+
+Two supporting changes:
+
+- **`chroma_db/` is committed and ingestion removed from the start command.**
+  The OOM appeared right at the ~90 MB model download, which happened *only*
+  because ingest ran at boot. Shipping the store removes that download, removes
+  an entire second process from the container, and stops the deploy depending on
+  Groww being reachable from Render's IP. Cold start: 3–5 min → ~30 s.
+- The same warning line made the phase unambiguous, which is the one genuinely
+  useful thing about it. **When a deploy fails, read which phase printed the
+  error before changing code.**
+
 ### Results
 
 | Measurement | Before | After |
 |---|---|---|
-| ingest.py, fresh store | 489 MB | **283 MB** |
-| Query path | 539 MB | **208 MB** |
+| `ingest.py`, fresh store | 489 MB | 283 MB (no longer run at boot) |
+| Query path | 539 MB | 208 MB |
 | Real `app.py`, 3 live questions | ~700 MB | **235 MB** |
-| Headroom vs 512 MB | −190 MB | **+229 MB** |
+| Headroom vs 512 MB | −190 MB | **+277 MB** |
 
 Parity with the original `sentence-transformers` embedder over all 46 real corpus
 chunks: **minimum cosine 0.99999982**, max absolute difference **1.75e-07**
@@ -360,19 +394,32 @@ Reproduce: `python src/generate_samples.py`, `python samples/ui_test.py`.
 
 ---
 
-## 12. Deployment settings (once memory is fixed)
+## 12. Deployment settings
 
 | Field | Value |
 |---|---|
 | Repo | `https://github.com/vedantk7415-maker/Rag-Chatbot` |
 | Root Directory | blank |
 | Build Command | `pip install --upgrade pip && pip install -r requirements.txt` |
-| Start Command | `python src/ingest.py && streamlit run app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true` |
+| Start Command | `streamlit run app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true --server.fileWatcherType none --browser.gatherUsageStats false` |
 | Env | `GROQ_API_KEY` (secret), `PYTHON_VERSION=3.11.9` |
 
-`chroma_db/` is gitignored, so **ingestion must run at every startup**. Expect a
-3–5 minute cold start on the free tier (pip + 90 MB model + live Groww fetch).
-Deploy hours before any live demo and re-visit the URL right before presenting.
+**`chroma_db/` is now committed** and ingestion is **not** part of the start
+command. Cold start is roughly 30 seconds instead of 3–5 minutes, and the deploy
+no longer depends on Groww being reachable from Render's datacenter IP.
+
+If you change the corpus, rebuild the store or the deployment serves stale
+vectors:
+
+```bash
+python src/ingest.py --rebuild
+git add -A && git commit -m "rebuild vector store"
+```
+
+`.streamlit/config.toml` ships with the repo and sets `fileWatcherType = "none"`
+plus `headless = true`, so the dashboard's start command does not need the
+redundant flags. CORS and XSRF protection are deliberately left at Streamlit's
+secure defaults — do not disable them, the app is publicly reachable.
 
 ---
 

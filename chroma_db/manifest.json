@@ -1,0 +1,9 @@
+{
+  "count": 46,
+  "signature": "e7094ae368f3e1f7",
+  "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "embed_dim": 384,
+  "collection": "mf_faq_chunks",
+  "built_at": "2026-10-02T19:15:05",
+  "last_updated": "2026-10-02"
+}
