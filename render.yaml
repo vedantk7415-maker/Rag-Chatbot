@@ -1,0 +1,41 @@
+# Render blueprint - deploys the Streamlit app as a web service.
+#
+# The API key is NOT set here. "sync: false" tells Render to leave it blank so
+# you enter the real value in the dashboard (Environment tab). It is never
+# committed, which is the whole point.
+#
+# Deploy: Render dashboard -> New -> Blueprint -> point at this repo.
+# Or: New -> Web Service -> connect repo -> Render reads this file automatically.
+
+services:
+  - type: web
+    name: hdfc-mf-facts-bot
+    runtime: python
+    plan: free
+    region: singapore
+
+    # chroma_db/ is gitignored, so the vector store does not exist on deploy.
+    # Ingestion must run at startup. It is idempotent: re-running an already
+    # populated store is a no-op, but on a fresh container it does the work.
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: >
+      python src/ingest.py &&
+      streamlit run app.py
+      --server.port $PORT
+      --server.address 0.0.0.0
+      --server.headless true
+      --browser.gatherUsageStats false
+
+    healthCheckPath: /
+
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+
+      # Filled in by you in the Render dashboard. Never committed.
+      - key: GROQ_API_KEY
+        sync: false
+
+      # Optional override; the default in src/generator.py already matches.
+      - key: GROQ_MODEL
+        value: openai/gpt-oss-120b
