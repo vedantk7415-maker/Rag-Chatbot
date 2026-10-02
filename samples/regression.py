@@ -123,7 +123,33 @@ for q in OOS:
     oos_ok += bool((not r.in_sources) and r.answer.count("http") == 0)
 record("honest refusals, no invented citation", oos_ok, len(OOS))
 
-print("\n=== 5. torch must NOT be loaded ===")
+print("\n=== 5. corpus-scope questions ===")
+SCOPE_OK = [
+    "which are these 5 mutual funds",
+    "which funds do you cover?",
+    "list the funds",
+    "What can you tell me?",
+]
+scope_ok = 0
+for q in SCOPE_OK:
+    r = gen.answer_question(q)
+    scope_ok += bool(r.in_sources and not r.blocked and len(r.chunks_used) == 0)
+record("scope questions answered from corpus", scope_ok, len(SCOPE_OK))
+
+# A scope pattern that is too greedy would hijack these and answer with a list
+# instead of a fact or a refusal, so each must NOT be treated as scope.
+SCOPE_LEAK = [
+    "Which HDFC fund has a lower expense ratio?",
+    "which fund is better, large cap or small cap?",
+    "What is the expense ratio of HDFC Large Cap?",
+    "which HDFC fund gave better returns?",
+]
+leaks = sum(gen.is_scope_question(q) for q in SCOPE_LEAK)
+record("scope pattern hijacks comparisons", leaks, 0)
+
+record("schemes listed in scope answer", len(gen.corpus_schemes()), 5)
+
+print("\n=== 6. torch must NOT be loaded ===")
 import sys as _s  # noqa: E402
 
 record("torch imported", "torch" in _s.modules, False)

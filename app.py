@@ -47,6 +47,10 @@ st.set_page_config(
 
 DISCLAIMER = "Facts-only. No investment advice."
 
+# Shown in the sidebar so you can tell at a glance which build is live. Bump it
+# when you change anything you want to verify after a deploy.
+BUILD_ID = "2026-10-02-ui2"
+
 # Exactly three, per the demo brief. Between them they exercise a numeric fact,
 # a less obvious scheme, and a guardrail refusal. Anything else is one keystroke
 # away in the chat box.
@@ -215,7 +219,6 @@ status = corpus_status()
 
 with st.sidebar:
     st.markdown("### 📊 HDFC MF Facts Bot")
-    st.caption("Facts-only RAG over a small public corpus. Class demo.")
 
     st.markdown(
         f"<div style='font-size:0.82rem;color:#8a8a8a;margin:0.4rem 0 0.2rem'>"
@@ -256,6 +259,11 @@ with st.sidebar:
 
     st.markdown("---")
     st.caption(f"Model `{status['model']}` · temperature 0")
+
+    # Build marker. An earlier deploy looked broken only because the old build
+    # was still being served, and there was no way to tell from the UI which
+    # commit was live. This makes that question answerable at a glance.
+    st.caption(f"Build `{BUILD_ID}`")
 
     # Rendered before the chat input, so on the very first question this run
     # `messages` is still empty. Checking `pending` too means the button exists

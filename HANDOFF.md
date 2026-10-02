@@ -258,6 +258,22 @@ A prompt instruction is a request; a formatter is a guarantee. The model can be
 talked into a fourth sentence, but cannot make `formatter.py` emit two links.
 Sentence splitting uses `(?<=[.!?])\s+` so `1.04%` and `Rs 1,405.49` never split.
 
+### Corpus-scope questions bypass the LLM entirely
+
+Asking "which are these 5 mutual funds?" used to return *"I don't have that
+information in my sources."* Technically honest, practically useless — and the
+model **cannot** fix it, because the prompt forbids answering from memory and no
+corpus chunk lists the schemes.
+
+`generator.is_scope_question()` routes those to `formatter.format_scope()`, which
+lists the names read from `data/sources.csv`. Deliberately narrow: an explicit
+coverage verb is required, so *"which fund has a lower expense ratio?"* still
+reaches the guardrails. Verified 7/7 positive, 6/6 negative — no leakage into
+comparison or advice questions.
+
+No citation is attached, following the same reasoning as `format_unavailable`:
+this describes the corpus itself, so there is no single page to point at.
+
 ### Guardrails run BEFORE retrieval
 
 A blocked question must never reach ChromaDB or Groq. Verified: blocked questions

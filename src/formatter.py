@@ -163,3 +163,30 @@ def format_unavailable(topic: str = "that question") -> str:
         f"and how to download a capital-gains statement.\n\n"
         "Try asking about one of those. Facts-only. No investment advice."
     )
+
+
+def format_scope(schemes: list[str]) -> str:
+    """
+    The answer to "which funds do you cover?" and similar meta questions.
+
+    This exists because the alternative was genuinely bad. A visitor asking what
+    the bot covers got "I don't have that information in my sources" - which is
+    technically honest and practically useless, and it is a very likely first
+    question from an examiner.
+
+    The list comes from data/sources.csv, so it is read from the corpus rather
+    than written from memory. No citation is attached, for the same reason
+    `format_unavailable` omits one: this describes the corpus itself instead of
+    reporting a figure from a single page, so there is no one page to point at.
+
+    Three sentences, matching MAX_SENTENCES.
+    """
+    listing = "; ".join(schemes)
+    return (
+        f"I cover five HDFC equity schemes: {listing}.\n\n"
+        "For any of them I can report expense ratio, exit load, minimum and "
+        "maximum SIP, benchmark, riskometer rating, NAV, AUM, fund manager and "
+        "ELSS lock-in, plus how to download a capital-gains statement.\n\n"
+        "Returns and performance figures are excluded on purpose. Facts-only. "
+        "No investment advice."
+    )

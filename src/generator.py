@@ -16,12 +16,14 @@ one implementation means the demo and the tests cannot drift apart.
 from __future__ import annotations
 
 import os
+import re
 from dataclasses import dataclass, field
 
 from dotenv import load_dotenv
 
 import formatter
 import guardrails
+import ingest
 import retriever
 
 load_dotenv()
@@ -67,6 +69,46 @@ CONTEXT
 
 class MissingAPIKey(RuntimeError):
     """Raised when the pipeline needs Groq but no key is configured."""
+
+
+# --------------------------------------------------------------------------- #
+# Corpus-scope questions
+#
+# "Which funds do you cover?" is a very likely first question, and before this
+# existed it was answered with "I don't have that information in my sources".
+# That is technically honest and practically useless - and the LLM cannot fix
+# it, because the prompt forbids answering from memory and no corpus chunk
+# lists the schemes.
+#
+# So the answer is built from data/sources.csv instead: read from the corpus,
+# never from the model's head. Deliberately narrow - an explicit coverage verb
+# is required, so "which fund has a lower expense ratio" still reaches the
+# guardrails instead of being answered with a list.
+# --------------------------------------------------------------------------- #
+
+_SCOPE_RE = re.compile(
+    r"\b(?:which|what)\s+(?:5|five|these|this|are\s+these|are\s+this)\b"
+    r"[^?]{0,30}\b(?:funds?|schemes?)\b"
+    r"|\b(?:funds?|schemes?)\b[^?]{0,25}"
+    r"\b(?:do\s+you\s+(?:cover|support|know)|you\s+cover|in\s+your\s+(?:corpus|sources))\b"
+    r"|\blist\s+(?:the\s+|your\s+|all\s+)?(?:5\s+|five\s+)?(?:funds?|schemes?)\b"
+    r"|\bwhat\s+can\s+you\s+(?:tell|answer|help)\b",
+    re.IGNORECASE,
+)
+
+
+def is_scope_question(question: str) -> bool:
+    """True for questions about which schemes the bot covers."""
+    return bool(_SCOPE_RE.search(question))
+
+
+def corpus_schemes() -> list[str]:
+    """The scheme names in the corpus, read from data/sources.csv."""
+    return [
+        source.scheme_name
+        for source in ingest.read_sources()
+        if source.source_type == "scheme"
+    ]
 
 
 def get_api_key() -> str:
@@ -175,10 +217,21 @@ def answer_question(question: str, top_k: int = retriever.TOP_K) -> AnswerResult
             in_sources=False,
         )
 
-    # 2. Retrieval, with an exact scheme filter when one is named.
+    # 2. "Which funds do you cover?" - answered from data/sources.csv, never
+    #    from the model's memory, so it bypasses both retrieval and the LLM.
+    if is_scope_question(question):
+        return AnswerResult(
+            question=question,
+            answer=formatter.format_scope(corpus_schemes()),
+            # These names come from the corpus itself, so the answer really is
+            # grounded - unlike an unmatched question.
+            in_sources=True,
+        )
+
+    # 3. Retrieval, with an exact scheme filter when one is named.
     chunks, scheme, weak = retriever.retrieve(question, top_k=top_k)
 
-    # 3. Weak or empty match: say so rather than let the model improvise.
+    # 4. Weak or empty match: say so rather than let the model improvise.
     if weak or not chunks:
         return AnswerResult(
             question=question,
@@ -189,11 +242,11 @@ def answer_question(question: str, top_k: int = retriever.TOP_K) -> AnswerResult
             weak_match=weak,
         )
 
-    # 4. Generate from the retrieved context only.
+    # 5. Generate from the retrieved context only.
     context = retriever.build_context(chunks)
     raw = generate_answer(question, context)
 
-    # 5. The sentinel means the model judged the context insufficient.
+    # 6. The sentinel means the model judged the context insufficient.
     if NOT_IN_SOURCES in raw.upper() or not raw.strip():
         return AnswerResult(
             question=question,
@@ -204,7 +257,7 @@ def answer_question(question: str, top_k: int = retriever.TOP_K) -> AnswerResult
             weak_match=weak,
         )
 
-    # 6. Format: <=3 sentences, exactly one citation, dated footer.
+    # 7. Format: <=3 sentences, exactly one citation, dated footer.
     citation = pick_citation(chunks, scheme)
     answer = formatter.format_answer(raw, citation.source_url, citation.last_updated)
     return AnswerResult(
